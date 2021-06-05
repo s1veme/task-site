@@ -1,0 +1,3 @@
+CREATE USER admin PASSWORD 'admin';
+CREATE DATABASE necicada;
+GRANT ALL PRIVILEGES ON DATABASE necicada TO admin;
