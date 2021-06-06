@@ -19,6 +19,7 @@
             <li>Обратиться</li>
             <li>Лидеры</li>
             <li>Личный кабинет</li>
+            <router-link to="/login">Регистрация</router-link>
           </ul>
         </header>
         <section class="flex flex-warp">

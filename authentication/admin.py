@@ -8,10 +8,15 @@ class UserAdmin(BaseUserAdmin):
     list_filter = ('is_staff',)
 
     fieldsets = (
-        (None, {'fields': ('username', 'email', 'password')}),
+        (None, {'fields': ('username', 'email',
+         'password', 'status', 'number_of_points')}),
 
         ('Permissions', {'fields': ('is_staff',)}),
+
+        ('Informations', {'fields': ('updated_at', 'created_at')})
     )
+
+    readonly_fields = ('updated_at', 'created_at')
 
     search_fields = ('username', 'email')
     ordering = ('username', 'email')

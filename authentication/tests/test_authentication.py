@@ -31,7 +31,6 @@ def test_create_user():
     assert response.status_code == status.HTTP_201_CREATED
     assert User.objects.count() == 1
 
-    print(content)
     user = User.objects.get(id=content['id'])
 
     assert user.username == user_data['username']

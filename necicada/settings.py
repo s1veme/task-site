@@ -151,12 +151,13 @@ AUTH_USER_MODEL = 'authentication.User'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-EMAIL_USER_TLS = True
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = env.str('EMAIL_HOST_USER'),
-EMAIL_HOST_PASSWORD = ''
-EMAIL_PORT = 587
+#EMAIL_USER_TLS = Fal
+#EMAIL_HOST = 'smtp.gmail.com'
+#EMAIL_HOST_USER = env.str('EMAIL_HOST_USER'),
+#EMAIL_HOST_PASSWORD = ''
+#EMAIL_PORT = 587
 
+CORS_ORIGIN_ALLOW_ALL = True
 
 CORS_ALLOW_METHODS = [
     'DELETE',
@@ -170,8 +171,8 @@ CORS_ALLOW_METHODS = [
 DJOSER = {
     'PASSWORD_RESET_CONFIRM_URL': '#/password/reset/confirm/{uid}/{token}',
     'USERNAME_RESET_CONFIRM_URL': '#/username/reset/confirm/{uid}/{token}',
-    'ACTIVATION_URL': '#/activate/{uid}/{token}',
-    'SEND_ACTIVATION_EMAIL': True,
+    #    'ACTIVATION_URL': '#/activate/{uid}/{token}',
+    #    'SEND_ACTIVATION_EMAIL': True,
     'SERIALIZERS': {},
 }
 

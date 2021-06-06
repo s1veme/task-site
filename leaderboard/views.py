@@ -11,4 +11,4 @@ class LeaderTable(ListAPIView):
     permission_classes = (permissions.AllowAny, )
 
     def get_queryset(self):
-        return LeaderSerializer(User.objects.order_by('number_of_points'), many=True)
+        return LeaderSerializer(User.objects.order_by('-number_of_points'), many=True).data

@@ -39,7 +39,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     email = models.EmailField(db_index=True, unique=True)
 
-    status = models.CharField(max_length=50)
+    status = models.CharField(max_length=50, blank=True)
 
     number_of_points = models.PositiveBigIntegerField(db_index=True, default=0)
 
