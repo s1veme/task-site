@@ -1,9 +1,8 @@
-import jwt
-from datetime import datetime, timedelta
-from django.conf import settings
 from django.contrib.auth.models import (
     AbstractBaseUser, BaseUserManager, PermissionsMixin)
 from django.db import models
+
+from tasks.models import Task
 
 
 class UserManager(BaseUserManager):
@@ -42,6 +41,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     status = models.CharField(max_length=50, blank=True)
 
     number_of_points = models.PositiveBigIntegerField(db_index=True, default=0)
+
+    tasks = models.ManyToManyField(Task)
 
     is_active = models.BooleanField(default=True)
 

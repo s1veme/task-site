@@ -12,6 +12,12 @@ services:
       - ./docker/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
       - "5432:5432"
+
+  redis:
+    image: redis
+    ports:
+      - "6379:6379"
+
   web:
     build:
       context: ./
