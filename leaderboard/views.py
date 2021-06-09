@@ -3,7 +3,7 @@ from rest_framework import permissions
 
 from .serializers import LeaderSerializer
 
-from authentication.models import User
+from user.models import User
 
 
 class LeaderTable(ListAPIView):

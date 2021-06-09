@@ -1,7 +1,6 @@
-from django.db.models import fields
 from rest_framework import serializers
 
-from authentication.models import User
+from user.models import User
 
 
 class LeaderSerializer(serializers.ModelSerializer):

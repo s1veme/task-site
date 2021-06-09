@@ -52,8 +52,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'djoser',
     'channels',
-
-    'authentication',
+    'user',
     'tasks',
     'leaderboard'
 ]
@@ -149,7 +148,7 @@ STATIC_ROOT = BASE_DIR / 'static'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 
-AUTH_USER_MODEL = 'authentication.User'
+AUTH_USER_MODEL = 'user.User'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
@@ -197,6 +196,8 @@ REST_USE_JWT = True
 JWT_AUTH = {
     'JWT_EXPIRATION_DELTA': datetime.timedelta(days=14),
     'JWT_AUTH_HEADER_PREFIX': 'Bearer',
+
+    'JWT_SECRET_KEY': SECRET_KEY,
 }
 
 # Celery Configuration Options

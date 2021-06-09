@@ -19,7 +19,6 @@
         >
         <input
           id="email"
-          type="email"
           name="email"
           placeholder="e-mail address"
           autocomplete="email"
