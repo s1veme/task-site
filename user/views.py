@@ -1,9 +1,10 @@
+from rest_framework import permissions
 from rest_framework.response import Response
 
 from user.models import User
 from .serializers import UserSerializer
 
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 
 from rest_framework import status
 
@@ -16,9 +17,14 @@ from tasks.models import Task
 from django.db.models import F
 
 
-class UserViewSet(GenericViewSet, mixins.UpdateModelMixin):
+class UserViewSet(mixins.RetrieveModelMixin,
+                  mixins.UpdateModelMixin,
+                  mixins.ListModelMixin,
+                  GenericViewSet):
 
     serializer_class = UserSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
+    lookup_field = 'username'
 
     def get_queryset(self):
         return User.objects.filter(is_active=True)
@@ -32,7 +38,7 @@ class UserViewSet(GenericViewSet, mixins.UpdateModelMixin):
 
         if not task_id \
                 or not answer \
-                or request.user.tasks.get(id=task_id):
+                or request.user.tasks.filter(id=task_id).exists():
             return Response(status=status.HTTP_204_NO_CONTENT)
 
         if answer == task.decision:
@@ -44,3 +50,8 @@ class UserViewSet(GenericViewSet, mixins.UpdateModelMixin):
             return Response(status=status.HTTP_201_CREATED)
 
         return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+    @action(detail=False, permission_classes=[IsAuthenticated])
+    def profile(self, request):
+        serializer = self.get_serializer(instance=request.user)
+        return Response(serializer.data)

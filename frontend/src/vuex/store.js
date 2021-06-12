@@ -31,6 +31,15 @@ let store = createStore({
 
         setTasks(state, tasks) {
             state.tasks = tasks
+        },
+
+        setProfile(state, profileData) {
+            if (state.user.profile) {
+                state.user.profile = { ...state.user.profile, ...profileData };
+            } else {
+                state.user.profile = profileData;
+            }
+
         }
     },
 
@@ -59,24 +68,57 @@ let store = createStore({
         },
 
         async getTasks({ commit }) {
-            const tasks = await axios.get('api/task/tasks/')
+            const tasks = await axios.get('api/tasks/no-completed/')
 
             commit('setTasks', tasks.data)
         },
 
         async getTask(_, id) {
-            const task = await axios.get(`api/task/tasks/${id}/`)
+            const task = await axios.get(`api/tasks/${id}/`)
             return task.data
+        },
+
+        async getTasksCompleted({ commit }) {
+            const tasksCompleted = await axios.get('/api/tasks/completed/')
+
+            commit('setProfile', { tasksCompleted: tasksCompleted.data })
+
+            return tasksCompleted.data
         },
 
         async sendAnswer(_, answerData) {
             await axios.patch('/api/user/task_in_user_update/', answerData)
+        },
+
+        async getProfile(_, username) {
+            const profile = await axios.get(`/api/user/${username}`)
+
+            return profile.data
+        },
+
+        async updateProfile({ commit }, payload) {
+            const data = await axios.patch(`/api/user/${this.state.user.profile.username}/`, payload)
+
+            commit('setProfile', data.data);
+        },
+
+        async getMyProfile({ commit }) {
+            const profile = await axios.get(`/api/user/profile/`)
+
+            commit('setUser', { profile: profile.data })
+        },
+
+        async getConfrimEmail(_, payload) {
+            console.log(payload)
+            await axios.post('/auth/users/activation/', { uid: payload.uid, token: payload.token })
         }
     },
 
     getters: {
         leadersTable: state => state.leadersTable,
-        tasks: state => state.tasks
+        tasks: state => state.tasks,
+        profile: state => state.user.profile,
+        tasksCompleted: state => state.user.profile.tasksCompleted
     }
 })
 

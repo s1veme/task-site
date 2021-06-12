@@ -5,3 +5,4 @@ media/*
 venv/
 staticfiles/
 node_modules/
+config-project.json

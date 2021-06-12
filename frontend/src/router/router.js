@@ -1,4 +1,8 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
+import store from '@/vuex/store'
+import { useToast } from 'vue-toastification'
+
+const toast = useToast()
 
 const routes = [
   {
@@ -14,17 +18,36 @@ const routes = [
   {
     path: '/leaders',
     component: () => import('../views/v-table-leaders'),
-    name: 'leaders'
+    name: 'leaders',
   },
   {
     path: '/tasks',
     component: () => import('../views/v-tasks'),
-    name: 'tasks'
+    name: 'tasks',
+    meta: {
+      isAuth: true
+    }
   },
   {
     path: '/task/:id',
     component: () => import('../views/v-task-info'),
-    name: 'task'
+    name: 'task',
+    meta: {
+      isAuth: true
+    }
+  },
+  {
+    path: '/profile/:username',
+    component: () => import('../views/v-profile'),
+    name: 'profile',
+    meta: {
+      isAuth: true
+    }
+  },
+  {
+    path: '/user_email_activate',
+    component: () => import('../views/v-confrim-email'),
+    name: 'email-activate'
   }
 ]
 
@@ -32,5 +55,20 @@ const router = createRouter({
   history: createWebHashHistory(),
   routes
 })
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.isAuth)) {
+    if (store.state.user.token) {
+      next()
+      return
+    }
+    toast.error('Пожалуйста, авторизуйтесь!')
+    router.push('/')
+  } else {
+    next()
+  }
+})
+
+
 
 export default router;

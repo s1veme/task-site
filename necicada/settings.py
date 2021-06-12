@@ -48,8 +48,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'rest_framework_jwt',
     'rest_framework.authtoken',
+    'rest_framework_jwt',
     'djoser',
     'channels',
     'user',
@@ -138,6 +138,10 @@ USE_L10N = True
 
 USE_TZ = True
 
+BACKEND_URL = os.getenv("BACKEND_URL", 'http://127.0.0.1:8000')
+FRONTEND_URL = os.getenv("FRONTEND_URL", 'http://127.0.0.1:8080')
+
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
@@ -152,11 +156,15 @@ AUTH_USER_MODEL = 'user.User'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-#EMAIL_USER_TLS = Fal
-#EMAIL_HOST = 'smtp.gmail.com'
-#EMAIL_HOST_USER = env.str('EMAIL_HOST_USER'),
-#EMAIL_HOST_PASSWORD = ''
-#EMAIL_PORT = 587
+
+# EMAIL_BACKEND = os.getenv("DJANGO_EMAIL_BACKEND",
+#                          'django.core.mail.backends.console.EmailBackend')
+EMAIL_USE_TLS = bool(os.getenv("EMAIL_USE_TLS", False))
+EMAIL_HOST = os.getenv("EMAIL_HOST")
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
+EMAIL_PORT = os.getenv("EMAIL_PORT")
+
 
 CORS_ORIGIN_ALLOW_ALL = True
 
@@ -170,35 +178,32 @@ CORS_ALLOW_METHODS = [
 ]
 
 DJOSER = {
-    'PASSWORD_RESET_CONFIRM_URL': '#/password/reset/confirm/{uid}/{token}',
-    'USERNAME_RESET_CONFIRM_URL': '#/username/reset/confirm/{uid}/{token}',
-    #    'ACTIVATION_URL': '#/activate/{uid}/{token}',
-    #    'SEND_ACTIVATION_EMAIL': True,
+    'PASSWORD_RESET_CONFIRM_URL': 'set_new_password/?user_code=___{uid}___{token}___',
+    'ACTIVATION_URL': 'user_email_activate/?user_code=___{uid}___{token}___',
+    'SEND_ACTIVATION_EMAIL': True,
     'SERIALIZERS': {},
+    'EMAIL': {
+        'activation': 'user.email.UserActivationEmail',
+    }
+
 }
 
 REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated',
-    ],
     "DEFAULT_PARSER_CLASSES": [
         "rest_framework.parsers.JSONParser",
     ],
     "DEFAULT_AUTHENTICATION_CLASSES": [
         'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.authentication.BasicAuthentication',
     ],
 }
-
 REST_USE_JWT = True
 
 JWT_AUTH = {
     'JWT_EXPIRATION_DELTA': datetime.timedelta(days=14),
     'JWT_AUTH_HEADER_PREFIX': 'Bearer',
-
-    'JWT_SECRET_KEY': SECRET_KEY,
 }
+
+SOCIALACCOUNT_EMAIL_VERIFICATION = 'none'
 
 # Celery Configuration Options
 CELERY_TIMEZONE = "Europe/Moscow"

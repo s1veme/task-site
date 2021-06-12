@@ -11,7 +11,7 @@ class UserAdmin(BaseUserAdmin):
         (None, {'fields': ('username', 'email',
          'password', 'status', 'number_of_points')}),
 
-        ('Permissions', {'fields': ('is_staff',)}),
+        ('Permissions', {'fields': ('is_staff', 'is_active')}),
 
         ('Informations', {'fields': ('updated_at', 'created_at')}),
 

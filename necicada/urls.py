@@ -9,6 +9,6 @@ urlpatterns = [
 
     path('api/user/', include('user.urls')),
     path('api/infomrmation/', include('leaderboard.urls')),
-    path('api/task/', include('tasks.urls'))
+    path('api/tasks/', include('tasks.urls'))
 
 ]
