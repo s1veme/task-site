@@ -6,8 +6,6 @@
       <p class="text-xl">{{ taskData.task_text }}</p>
       <p>{{ taskData.number_of_points }}</p>
 
-      <input type="text" />
-
       <form
         @submit.prevent="
           $store.dispatch('sendAnswer', {
@@ -15,11 +13,15 @@
             task_id: taskData.id,
           })
         "
+        v-if="!taskData.completed"
       >
         <label>Введите ответ:</label>
         <input type="text" v-model="answer" required />
         <button type="submit">ОТПРАВИТЬ</button>
       </form>
+      <div v-else>
+        <h1>Вы уже прошли его!</h1>
+      </div>
     </div>
   </div>
 </template>

@@ -1,8 +1,8 @@
-from typing import List
+from rest_framework import serializers
 from rest_framework.generics import ListAPIView, RetrieveAPIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
 
-from .serializers import TaskSerializer
+from .serializers import TaskSerializer, TaskDetailSerializer
 from .models import Task
 
 
@@ -15,8 +15,11 @@ class TasksView(ListAPIView):
 
 class TaskDetailView(RetrieveAPIView):
     permission_classes = [AllowAny, ]
-    serializer_class = TaskSerializer
+    serializer_class = TaskDetailSerializer
     queryset = Task.objects.all()
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
 
 
 class TasksNoCompletedView(ListAPIView):
