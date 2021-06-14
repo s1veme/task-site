@@ -10,7 +10,7 @@ router.register('', UserViewSet, basename='userview')
 
 
 urlpatterns = [
-    path('token-create/', obtain_jwt_token, name='token'),
+    path('token-create/', obtain_jwt_token, name='obtain_jwt_token'),
 ]
 
 urlpatterns += router.urls

@@ -19,7 +19,6 @@ from django.db.models import F
 
 class UserViewSet(mixins.RetrieveModelMixin,
                   mixins.UpdateModelMixin,
-                  mixins.ListModelMixin,
                   GenericViewSet):
 
     serializer_class = UserSerializer

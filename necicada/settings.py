@@ -51,7 +51,6 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'rest_framework_jwt',
     'djoser',
-    'channels',
     'user',
     'tasks',
     'leaderboard'
@@ -87,7 +86,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'necicada.wsgi.application'
-ASGI_APPLICATION = 'necicada.asgi.application'
 
 
 # Database
@@ -204,18 +202,3 @@ JWT_AUTH = {
 }
 
 SOCIALACCOUNT_EMAIL_VERIFICATION = 'none'
-
-# Celery Configuration Options
-CELERY_TIMEZONE = "Europe/Moscow"
-CELERY_TASK_TRACK_STARTED = True
-CELERY_TASK_TIME_LIMIT = 30 * 60
-CELERY_BROKER_URL = 'redis://localhost:6379/0'
-
-CHANNEL_LAYERS = {
-    'default': {
-        'BACKEND': 'channels_redis.core.RedisChannelLayer',
-        'CONFIG': {
-            'hosts': [('127.0.0.1', 6379)]
-        }
-    }
-}
