@@ -1,7 +1,7 @@
 from django.urls import path
 
-from .views import LeaderTable
+from .views import LeaderTableView
 
 urlpatterns = [
-    path('leaders/', LeaderTable.as_view())
+    path('leaders/', LeaderTableView.as_view())
 ]

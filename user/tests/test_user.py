@@ -18,7 +18,7 @@ def test_create_user():
 
     username = 'test_user'
     password = 'test_user_password'
-    email = 'necicada.test@gmail.com'
+    email = 'test_user@gmail.com'
 
     user_data = {
         'username': username,
@@ -66,3 +66,16 @@ def test_create_user():
 
     assert response.status_code == 200
     assert 'token' in response.json()
+
+
+def test_change_user(create_user, api_client):
+    user = create_user
+    url = reverse('user-update') + user.username
+
+    print(url)
+
+    api_client.force_authenticate(user=user)
+
+    response = api_client.patch(
+        url, {'status': 'test-status-user'}, format='json')
+    print(response)

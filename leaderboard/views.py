@@ -6,7 +6,7 @@ from .serializers import LeaderSerializer
 from user.models import User
 
 
-class LeaderTable(ListAPIView):
+class LeaderTableView(ListAPIView):
     serializer_class = LeaderSerializer
     permission_classes = (permissions.AllowAny, )
 

@@ -6,7 +6,7 @@ from .views import UserViewSet
 from rest_framework_jwt.views import obtain_jwt_token
 
 router = DefaultRouter()
-router.register('', UserViewSet, basename='userview')
+router.register('', UserViewSet, basename='user')
 
 
 urlpatterns = [
