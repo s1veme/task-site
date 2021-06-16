@@ -6,6 +6,8 @@ from django.core import mail
 from rest_framework.test import APIClient
 from rest_framework import status
 
+from icecream import ic
+
 User = get_user_model()
 
 pytestmark = [
@@ -70,12 +72,18 @@ def test_create_user():
 
 def test_change_user(create_user, api_client):
     user = create_user
-    url = reverse('user-update') + user.username
+    data = {'status': 'test-status-user'}
 
-    print(url)
+    assert user.status == ''
+
+    url = reverse('user-detail', kwargs={'username': user.username})
 
     api_client.force_authenticate(user=user)
 
     response = api_client.patch(
-        url, {'status': 'test-status-user'}, format='json')
-    print(response)
+        url, data, format='json')
+
+    user.refresh_from_db()
+
+    assert response.status_code == 200
+    assert user.status == data['status']

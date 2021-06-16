@@ -24,9 +24,25 @@ def create_user():
     return user
 
 
+@fixture
+def task_data():
+    return {
+        'name_task': 'test_task_name',
+        'task_text': 'test_task_text',
+        'decision': 'test',
+        'number_of_points': 5,
+        'complexity': 3
+    }
+
+
 @fixture()
-def create_task():
-    ...
+def create_task(task_data):
+    task = Task.objects.create(
+        **task_data
+    )
+    task.save()
+
+    return task
 
 
 @pytest.fixture()
